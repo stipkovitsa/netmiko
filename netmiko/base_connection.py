@@ -696,7 +696,7 @@ class BaseConnection(object):
 
     def send_command(self, command_string, expect_string=None,
                      delay_factor=1, max_loops=500, auto_find_prompt=True,
-                     strip_prompt=True, strip_command=True):
+                     strip_prompt=True, strip_command=True, remove_last_char=False):
         '''
         Send command to network device retrieve output until router_prompt or expect_string
 
@@ -724,7 +724,10 @@ class BaseConnection(object):
                     print("Found prompt: {}".format(prompt))
             else:
                 prompt = self.base_prompt
-            search_pattern = re.escape(prompt.strip())
+            if remove_last_char:
+                search_pattern = re.escape(prompt[:-1].strip())
+            else:
+                search_pattern = re.escape(prompt.strip())
         else:
             search_pattern = expect_string
 
