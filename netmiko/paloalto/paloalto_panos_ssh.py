@@ -45,7 +45,7 @@ class PaloAltoPanosSSH(BaseConnection):
         """Exit configuration mode."""
         output = ""
         if self.check_config_mode():
-            output = self.send_command(exit_config, strip_prompt=False, strip_command=False)
+            output = self.send_command(exit_config, strip_prompt=False, strip_command=False, remove_last_char = True)
             if self.check_config_mode():
                 raise ValueError("Failed to exit configuration mode")
         return output
